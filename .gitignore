@@ -1,0 +1,8 @@
+__pycache__/
+*.db
+*.csv
+*.pkl
+myenv/
+.env
+data/
+results/
