@@ -210,8 +210,15 @@ def main():
 # --------------------------
 def auth_page():
     col1, col2 = st.columns([2, 3])
+    
+    # Construct the correct image path
+    image_path = "assets/image.png"
+    
     with col1:
-        st.image("assets/image.png", use_container_width=True)
+        if os.path.exists(image_path):  # Check if the image file exists
+            st.image(image_path, use_column_width=True)  # Fix deprecated parameter
+        else:
+            st.warning("⚠️ Image not found. Please check the file path.")
     with col2:
         st.title("NHIS Fraud Detection System")
 
