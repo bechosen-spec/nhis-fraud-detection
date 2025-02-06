@@ -212,7 +212,7 @@ def auth_page():
     col1, col2 = st.columns([2, 3])
     
     # Construct the correct image path
-    image_path = "assets/image.png"
+    image_path = "assets/image.jpg"
     
     with col1:
         if os.path.exists(image_path):  # Check if the image file exists
