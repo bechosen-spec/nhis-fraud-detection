@@ -84,7 +84,7 @@ except sqlite3.Error as e:
 @st.cache_resource
 def load_artifacts():
     model = joblib.load('models/fraud_detection_model.pkl')
-    # Do not set `use_label_encoder` here as it's not needed
+    # Do not set `use_label_encoder` here as it's not needed anymore
     scaler = joblib.load('models/scaler.pkl')
     diagnosis_encoder = joblib.load('models/diagnosis_encoder.pkl')
     fraud_encoder = joblib.load('models/fraud_encoder.pkl')
