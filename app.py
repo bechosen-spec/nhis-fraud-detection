@@ -83,16 +83,12 @@ except sqlite3.Error as e:
 # --------------------------
 @st.cache_resource
 def load_artifacts():
-    """Loads machine learning model artifacts"""
-    model = joblib.load('models/fraud_detection_model.pkl')  # No need to adjust params
+    model = joblib.load('models/fraud_detection_model.pkl')
     scaler = joblib.load('models/scaler.pkl')
     diagnosis_encoder = joblib.load('models/diagnosis_encoder.pkl')
     fraud_encoder = joblib.load('models/fraud_encoder.pkl')
     return model, scaler, diagnosis_encoder, fraud_encoder
-
-# Load models and encoders
 model, scaler, diagnosis_encoder, fraud_encoder = load_artifacts()
-
 # --------------------------
 # Helper Functions
 # --------------------------
@@ -103,42 +99,20 @@ def to_int_if_bytes(value):
     if value is None:
         return 0
     return int(value)
-
 def preprocess_data(df):
-    """
-    - Converts 'Date Admitted' and 'Date Discharged' to datetime
-    - Computes 'Length of Stay'
-    - Encodes Gender, Diagnosis
-    - Scales numeric columns
-    """
     df = df.copy()
     df['Date Admitted'] = pd.to_datetime(df['Date Admitted'], errors='coerce')
     df['Date Discharged'] = pd.to_datetime(df['Date Discharged'], errors='coerce')
-
-    # Check for invalid or missing date formats
     if df['Date Admitted'].isnull().any() or df['Date Discharged'].isnull().any():
-        raise ValueError("Invalid date format in 'Date Admitted' or 'Date Discharged' columns.")
-
-    # Calculate length of stay
+        raise ValueError("Invalid date format in date columns")
     df['Length of Stay'] = (df['Date Discharged'] - df['Date Admitted']).dt.days
-
-    # Remove non-feature columns
-    df.drop(['Patient ID', 'Date Admitted', 'Date Discharged'], axis=1, inplace=True, errors='ignore')
-
-    # Encode gender
+    df.drop(['Patient ID', 'Date Admitted', 'Date Discharged'], axis=1, inplace=True)
     df['Gender'] = df['Gender'].map({'Male': 1, 'Female': 0})
-
-    # Encode diagnosis
     df['Diagnosis'] = diagnosis_encoder.transform(df['Diagnosis'])
-
-    # Scale numeric columns
     num_cols = ['Age', 'Amount Billed', 'Length of Stay']
     df[num_cols] = scaler.transform(df[num_cols])
-
     return df
-
 def make_predictions(df):
-    """Make predictions based on the processed data."""
     processed_df = preprocess_data(df)
     y_pred = model.predict(processed_df)
     return fraud_encoder.inverse_transform(y_pred)
