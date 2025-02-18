@@ -84,15 +84,13 @@ except sqlite3.Error as e:
 # --------------------------
 @st.cache_resource
 def load_artifacts():
+    # Load the model without the need for setting 'use_label_encoder'
     model = joblib.load('models/fraud_detection_model.pkl')
-
-    # Check if the model is an instance of XGBClassifier
-    if isinstance(model, XGBClassifier):
-        model.set_params(use_label_encoder=False)
-
     scaler = joblib.load('models/scaler.pkl')
     diagnosis_encoder = joblib.load('models/diagnosis_encoder.pkl')
     fraud_encoder = joblib.load('models/fraud_encoder.pkl')
+    
+    # You no longer need to set use_label_encoder=False, so this line is removed
     return model, scaler, diagnosis_encoder, fraud_encoder
 
 model, scaler, diagnosis_encoder, fraud_encoder = load_artifacts()
