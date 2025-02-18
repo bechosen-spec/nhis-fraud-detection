@@ -11,7 +11,6 @@ import plotly.express as px
 from datetime import datetime
 from xgboost import XGBClassifier
 
-
 # --------------------------
 # Page Configuration
 # --------------------------
