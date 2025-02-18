@@ -9,6 +9,8 @@ import binascii
 import os
 import plotly.express as px
 from datetime import datetime
+from xgboost import XGBClassifier
+
 
 # --------------------------
 # Page Configuration
@@ -83,6 +85,11 @@ except sqlite3.Error as e:
 @st.cache_resource
 def load_artifacts():
     model = joblib.load('models/fraud_detection_model.pkl')
+
+    # Check if the model is an instance of XGBClassifier
+    if isinstance(model, XGBClassifier):
+        model.set_params(use_label_encoder=False)
+
     scaler = joblib.load('models/scaler.pkl')
     diagnosis_encoder = joblib.load('models/diagnosis_encoder.pkl')
     fraud_encoder = joblib.load('models/fraud_encoder.pkl')
