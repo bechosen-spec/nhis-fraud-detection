@@ -307,11 +307,11 @@ def hospital_dashboard():
                                 df_predicted = df_original.copy()
                                 df_predicted["Prediction"] = predictions
 
-                                # Count how many fraud
+                                # Count fraud cases
                                 fraud_count = (df_predicted["Prediction"] != "No Fraud").sum()
                                 total_count = len(df_predicted)
 
-                                # Save both the original data & predicted results
+                                # Save original and predicted data
                                 timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
                                 data_path = f"data/{st.session_state.user_id}_{timestamp}.csv"
                                 pred_path = f"results/{st.session_state.user_id}_{timestamp}.csv"
@@ -319,7 +319,7 @@ def hospital_dashboard():
                                 df_original.to_csv(data_path, index=False)
                                 df_predicted.to_csv(pred_path, index=False)
 
-                                # Insert into 'datasets'
+                                # Insert data into 'datasets' table
                                 c.execute("""
                                     INSERT INTO datasets 
                                     (hospital_id, upload_date, data_path, predictions_path)
@@ -327,7 +327,7 @@ def hospital_dashboard():
                                 """, (st.session_state.user_id, datetime.now(), data_path, pred_path))
                                 dataset_id = c.lastrowid
 
-                                # Insert summary in 'predictions'
+                                # Insert summary into 'predictions'
                                 c.execute("""
                                     INSERT INTO predictions
                                     (dataset_id, total_cases, fraud_count, non_fraud_count)
