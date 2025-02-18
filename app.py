@@ -83,15 +83,16 @@ except sqlite3.Error as e:
 # --------------------------
 @st.cache_resource
 def load_artifacts():
+    """Loads machine learning model artifacts"""
     model = joblib.load('models/fraud_detection_model.pkl')
-    # Do not set `use_label_encoder` here as it's not needed anymore
     scaler = joblib.load('models/scaler.pkl')
     diagnosis_encoder = joblib.load('models/diagnosis_encoder.pkl')
     fraud_encoder = joblib.load('models/fraud_encoder.pkl')
     return model, scaler, diagnosis_encoder, fraud_encoder
 
-
+# Load models and encoders
 model, scaler, diagnosis_encoder, fraud_encoder = load_artifacts()
+
 # --------------------------
 # Helper Functions
 # --------------------------
@@ -137,6 +138,7 @@ def preprocess_data(df):
     return df
 
 def make_predictions(df):
+    """Make predictions based on the processed data."""
     processed_df = preprocess_data(df)
     y_pred = model.predict(processed_df)
     return fraud_encoder.inverse_transform(y_pred)
