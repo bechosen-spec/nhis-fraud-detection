@@ -84,13 +84,10 @@ except sqlite3.Error as e:
 @st.cache_resource
 def load_artifacts():
     """Loads machine learning model artifacts"""
-    model = joblib.load('models/fraud_detection_model.pkl')
+    model = joblib.load('models/fraud_detection_model.pkl')  # No need to adjust params
     scaler = joblib.load('models/scaler.pkl')
     diagnosis_encoder = joblib.load('models/diagnosis_encoder.pkl')
     fraud_encoder = joblib.load('models/fraud_encoder.pkl')
-
-    # Fix for 'use_label_encoder' deprecation issue (no longer necessary)
-    model.set_params(use_label_encoder=False)  # Ensure it's removed if present
     return model, scaler, diagnosis_encoder, fraud_encoder
 
 # Load models and encoders
