@@ -790,15 +790,8 @@ def main():
 # --------------------------
 def auth_page():
     col1, col2 = st.columns([2, 3])
-
-    # Construct the correct image path
-    image_path = "assets/image.jpg"
-
     with col1:
-        if os.path.exists(image_path):  # Check if the image file exists
-            st.image(image_path, use_column_width=True)  # Fix deprecated parameter
-        else:
-            st.warning("⚠️ Image not found. Please check the file path.")
+        st.image("assets/image.png", use_container_width=True)
     with col2:
         st.title("NHIS Fraud Detection System")
 
@@ -976,7 +969,7 @@ def hospital_dashboard():
         # ========== CHANGE PASSWORD FLOW ==========
         st.markdown("---")
         st.markdown("## Change Password")
-
+        
         with st.form("change_password_form"):
             old_password = st.text_input("Old Password", type="password", key="old_password")
             new_password = st.text_input("New Password", type="password", key="new_password")
@@ -1145,4 +1138,4 @@ def admin_dashboard():
 # Run the App
 # --------------------------
 if __name__ == "__main__":
-    main()
+    main()‎
