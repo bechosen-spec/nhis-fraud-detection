@@ -791,7 +791,7 @@ def main():
 def auth_page():
     col1, col2 = st.columns([2, 3])
     with col1:
-        st.image("assets/image.png", use_container_width=True)
+        st.image("assets/image.jpg", use_container_width=True)
     with col2:
         st.title("NHIS Fraud Detection System")
 
