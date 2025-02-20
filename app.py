@@ -659,7 +659,7 @@ except sqlite3.Error as e:
 # --------------------------
 # Model Loading
 # --------------------------
-@st.cache_resource
+@st.experimental_memo
 def load_artifacts():
     model = joblib.load('models/fraud_detection_model.pkl')
     scaler = joblib.load('models/scaler.pkl')
@@ -791,7 +791,10 @@ def main():
 def auth_page():
     col1, col2 = st.columns([2, 3])
     with col1:
-        st.image("assets/image.jpg", use_container_width=True)
+        try:
+            st.image("assets/image.png", use_container_width=True)
+        except FileNotFoundError:
+            st.warning("Image not found. Please check the file path.")
     with col2:
         st.title("NHIS Fraud Detection System")
 
