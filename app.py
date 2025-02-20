@@ -1138,4 +1138,4 @@ def admin_dashboard():
 # Run the App
 # --------------------------
 if __name__ == "__main__":
-    main()‎
+    main()
