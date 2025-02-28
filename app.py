@@ -309,14 +309,20 @@ def hospital_dashboard():
                                 """, (dataset_id, total_count, fraud_count, total_count - fraud_count))
                                 conn.commit()
 
+                                # Store predicted DataFrame in session_state so it persists
+                                st.session_state.df_predicted = df_predicted
+
                                 st.balloons()
                                 st.success("Analysis completed!")
                                 st.write(f"**Total cases:** {total_count}")
                                 st.write(f"**Fraud cases:** {fraud_count}")
-                                if st.checkbox("Show predicted results"):
-                                    st.dataframe(df_predicted)
                             except Exception as e:
                                 st.error(f"Error during processing: {str(e)}")
+
+                    # If predictions have been generated, display the checkbox
+                    if "df_predicted" in st.session_state:
+                        if st.checkbox("Show predicted results"):
+                            st.dataframe(st.session_state.df_predicted)
             except Exception as e:
                 st.error(f"Error reading file: {str(e)}")
 
