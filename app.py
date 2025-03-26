@@ -214,7 +214,7 @@ def auth_page():
             st.warning("⚠️ Image not found. Please check the file path.")
 
     with col2:
-        st.title("NHIS Fraud Detection System")
+        st.title("NHIS  Billing Fraud Detection System")
 
         auth_type = st.radio("Select Action", ["Login", "Register"], horizontal=True)
         name = st.text_input("Hospital Name")
