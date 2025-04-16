@@ -278,7 +278,7 @@ def hospital_dashboard():
                             try:
                                 # Make predictions
                                 predictions = make_predictions(df_original)
-                                # Modify prediction logic here
+                                # Modify prediction logic here to use "Wrong Diagnosis" instead of "Fake Treatment"
                                 predictions = ["Wrong Diagnosis" if pred == "Fake Treatment" else pred for pred in predictions]
 
                                 df_predicted = df_original.copy()
